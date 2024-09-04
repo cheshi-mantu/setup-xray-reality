@@ -70,13 +70,53 @@ username@mum-look-no-hands .ssh % ssh-keygen -lf ~/.ssh/id_rsa
 4096 SHA256:uEKV9Byz...3z...EhcRX...EzACM ole.luckoye@mail.server (RSA)
 ```
 
-If the output of the command is empty, then we'll create a new RSA keys pair.
+If the output of the command is empty, then we'll create a new RSA keys pair. Good practice is to protect it with a password as it allows you loggin in to servers without using a password. Comfy, still when compromised and not protected, then you are screwed. I warned.
 
 ```shell
 ssh-keygen -t rsa -b 4096 -C name.surname@mail.server
 ```
 
-The `-C` switch stands for Comment, basically you can write a poem there for you to understand, what is it for.
+The `-C` switch stands for Comment, basically you can write a poem there for yourself to understand, what is it for.
+
+The `ssh-keygen` command will result in the creation of two files, one is `id_rsa` and the other is `id_rsa.pub`.
+
+**id_rsa** is your private key. Do not share it with anyone.
+
+**id_rsa.pub** is the public key, it's the one you need to provide to remote systems and services.
+
+**Set correct access for the keys.**
+
+Public key
+
+```shell
+chmod 644 id_rsa.pub
+```
+
+Private key
+
+```shell
+chmod 600 id_rsa
+```
+
+**Ckeck if ssh agent is running**
+
+```shell
+eval $(ssh-agent -s)
+```
+
+**Add ssh keys to the ssh agent**
+
+```shell
+ssh-add ~/.ssh/id_rsa
+```
+
+If you suddenly decided to **update the comment** for an existing key.
+
+```shell
+ssh-keygen -c -f ~/.ssh/id_rsa -C "new_comment"
+```
+
+
 
 
 
